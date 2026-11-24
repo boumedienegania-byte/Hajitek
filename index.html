@@ -1,1 +1,237 @@
-https://claude.ai/artifact/JJ2HT81yZU2X9ZQ4dydQye
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1f4e3d" />
+  <title>حاجيتك | Hajitek</title>
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif; }
+    body {
+      margin: 0;
+      background: #f4efe6;
+      color: #1e2421;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+    }
+    .app {
+      width: 100%;
+      max-width: 540px;
+      background: #fffdf9;
+      border: 1px solid #dfd5c5;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ece3d5;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .brand h1 { margin: 0; font-size: 1.4rem; color: #1f4e3d; }
+    .brand p { margin: 2px 0 0; font-size: 0.85rem; color: #6c6257; }
+    .score {
+      background: #1f4e3d;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #efe5d3;
+      color: #6d471d;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .riddle-box {
+      background: #f9f5ee;
+      border-right: 4px solid #b86b28;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+    .riddle-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.6;
+    }
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cbbca6;
+      border-radius: 10px;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    button {
+      padding: 11px 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary { background: #1f4e3d; color: #fff; }
+    .btn-secondary { background: #eadbc3; color: #3b2a16; }
+    .btn-next { width: 100%; background: #b86b28; color: #fff; margin-top: 10px; }
+    .feedback {
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      display: none;
+    }
+    .ok { background: #e6f4ea; color: #14532d; display: block; }
+    .no { background: #fdecec; color: #7f1d1d; display: block; }
+    .hint { background: #fff8e7; color: #784912; display: block; }
+    .explanation {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(0,0,0,0.15);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="top">
+      <div class="brand">
+        <h1>حاجيتك (Hajitek)</h1>
+        <p>تراث المحاجيات الشعبية — نواة تيارت</p>
+      </div>
+      <div class="score" id="scoreBox">النقاط: 0</div>
+    </div>
+
+    <span class="badge" id="progressBadge">محاجية 1 من 5</span>
+
+    <div class="riddle-box">
+      <p class="riddle-text" id="riddleText"></p>
+    </div>
+
+    <input type="text" id="answerInput" placeholder="اكتب الجواب هنا..." />
+
+    <div class="actions">
+      <button class="btn-primary" onclick="checkAnswer()">تحقق من الجواب</button>
+      <button class="btn-secondary" onclick="showHint()">تلميح</button>
+    </div>
+
+    <div class="feedback" id="feedbackBox"></div>
+    <button class="btn-next" onclick="nextRiddle()">المحاجية التالية</button>
+  </div>
+
+  <script>
+    const riddles = [
+      {
+        q: "«عمية وتسقر الكاف»",
+        hint: "شيء مستدير يقفز ويتنقل في اللعب ولا يملك عينين.",
+        answers: ["كرة", "الكرة"],
+        explain: "تصف المحاجية الكرة التي تقفز وتندفع في كل اتجاه، و«تسقر» في اللهجة المحلية تعني تقفز أو تتجه."
+      },
+      {
+        q: "«طبق مرجان زرع قاع البلدان»",
+        hint: "تظهر ليلاً في السماء ولا يمكن عدّها.",
+        answers: ["نجوم", "النجوم", "نجمة"],
+        explain: "تشبيه شاعري يصور لمعان النجوم بالمرجان وامتدادها في سماء كل الأوطان."
+      },
+      {
+        q: "«أبيض رفروف يشرب الماء كي الخروف»",
+        hint: "أكلة شعبية جزائرية معروفة بثقوبها الصغيرة.",
+        answers: ["بغرير", "البغرير"],
+        explain: "يصف عجينة البغرير السائلة وتشكل ثقوبها المميزة أثناء الطهي."
+      },
+      {
+        q: "«كبشي يا الأصفر فيه ميات جزّة ولا أكثر»",
+        hint: "نقرأ فيه ونحفظ داخله المعرفة والقصص.",
+        answers: ["كتاب", "الكتاب"],
+        explain: "يربط «الجزّة» في التراث الرعوي بكثرة أوراق الكتاب وصفحاته."
+      },
+      {
+        q: "«من الفوق لوح ومن التحت لوح ومن الوسط روح»",
+        hint: "حيوان بطيء يحمل درعاً واقياً على ظهره.",
+        answers: ["سلحفاة", "السلحفاة", "فكرون", "الفكرون"],
+        explain: "يجسد بنية السلحفاة الواضحة: درع علوي وسفلي وكائن حي في الوسط."
+      }
+    ];
+
+    let index = 0;
+    let score = 0;
+    let solvedCurrent = false;
+
+    function render() {
+      const item = riddles[index];
+      document.getElementById("progressBadge").textContent = `محاجية ${index + 1} من ${riddles.length}`;
+      document.getElementById("riddleText").textContent = item.q;
+      document.getElementById("answerInput").value = "";
+      const fb = document.getElementById("feedbackBox");
+      fb.className = "feedback";
+      fb.style.display = "none";
+      fb.innerHTML = "";
+      solvedCurrent = false;
+    }
+
+    function normalize(str) {
+      return str.trim().toLowerCase().replace(/^ال/, "");
+    }
+
+    function checkAnswer() {
+      const val = document.getElementById("answerInput").value;
+      const item = riddles[index];
+      const fb = document.getElementById("feedbackBox");
+
+      if (!val.trim()) return;
+
+      const userClean = normalize(val);
+      const isCorrect = item.answers.some(ans => normalize(ans) === userClean);
+
+      fb.style.display = "block";
+      if (isCorrect) {
+        if (!solvedCurrent) {
+          score += 10;
+          solvedCurrent = true;
+          document.getElementById("scoreBox").textContent = `النقاط: ${score}`;
+        }
+        fb.className = "feedback ok";
+        fb.innerHTML = `<strong>إجابة صحيحة!</strong><div class="explanation">${item.explain}</div>`;
+      } else {
+        fb.className = "feedback no";
+        fb.innerHTML = `<strong>ليست هذه الإجابة تماماً</strong> — جرّب مرة أخرى أو اطلب تلميحاً.`;
+      }
+    }
+
+    function showHint() {
+      const item = riddles[index];
+      const fb = document.getElementById("feedbackBox");
+      fb.className = "feedback hint";
+      fb.style.display = "block";
+      fb.innerHTML = `<strong>تلميح:</strong> ${item.hint}`;
+    }
+
+    function nextRiddle() {
+      index = (index + 1) % riddles.length;
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>
